@@ -5,11 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 
 public class TreeMenu {
@@ -83,7 +79,7 @@ class Menu implements Comparable<Menu> {
 
 	private String name;
 
-	private String parentId;
+	private String parentId;//根节点id定义为""
 
 	private String url;
 
