@@ -18,6 +18,7 @@ import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFDataFormat;
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
+import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -94,16 +95,17 @@ public class ExcelUtil {
 			HSSFRow row = sheet.createRow(0);
 			HSSFcs.setAlignment(CellStyle.ALIGN_CENTER);
 			HSSFcs.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-			HSSFcs.setFillForegroundColor(HSSFColor.GREEN.index);
-			/**
-			 * 设置表头样式，居中、背景色：绿色
-			 */
-			row.setRowStyle(HSSFcs);
+			HSSFcs.setFillForegroundColor(HSSFColor.LIGHT_CORNFLOWER_BLUE.index);
+			HSSFFont font = wb.createFont();
+			font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+			HSSFcs.setFont(font);
 			// 封装头信息
 			for (int index = 0; index < heads.size(); index++) {
 				HSSFCell createCell = row.createCell(index);
-				createCell.setCellType(CellStyle.ALIGN_CENTER);
-				createCell.setCellType(Cell.CELL_TYPE_STRING);
+				/**
+				 * 设置表头样式，居中、背景色：绿色、字体：加粗
+				 */
+				createCell.setCellStyle(HSSFcs);
 				createCell.setCellValue(heads.get(index));
 			}
 			// 填充数据信息
