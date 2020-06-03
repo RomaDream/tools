@@ -77,7 +77,7 @@ public class ExcelUtil {
 	/**
 	 * @Title: createExcelFile
 	 * @Description: 创建excel,带有头信息和数据
-	 * @param fileName excel表格文件名称
+	 * @param fileName excelsheet名称
 	 * @param heads    excel表格的头信息
 	 * @param dataList excel表格要填充的数据
 	 * @return

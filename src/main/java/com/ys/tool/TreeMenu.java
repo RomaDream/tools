@@ -24,7 +24,7 @@ public class TreeMenu {
 		return list;
 	}
 
-	public static List<Menu> findTree() {
+	public static List<Menu> findTree() { 
 		List<Menu> menus = init();
 
 		List<Menu> rootMenus = menus.stream().filter(item -> "".equals(item.getParentId()))
@@ -38,15 +38,14 @@ public class TreeMenu {
 		}
 
 		System.out.println("递归后的数据-------");
-		System.out.println(JSON.toJSONStringWithDateFormat(rootMenus,"yyyy-MM-dd HH:mm:ss",SerializerFeature.DisableCircularReferenceDetect));
+		System.out.println(JSON.toJSONStringWithDateFormat(rootMenus, "yyyy-MM-dd HH:mm:ss",
+				SerializerFeature.DisableCircularReferenceDetect));
 		return menus;
 	}
 
 	/**
-	 * core-code
-	 * 
 	 * 递归
-	 * 
+	 * core-code
 	 * @param id
 	 * @param menus
 	 * @return
@@ -79,7 +78,7 @@ class Menu implements Comparable<Menu> {
 
 	private String name;
 
-	private String parentId;//根节点id定义为""
+	private String parentId;//根节点上级id定义为""
 
 	private String url;
 
@@ -177,7 +176,7 @@ class Menu implements Comparable<Menu> {
 	}
 
 	public int compareTo(Menu o) {
-		return this.order - o.getOrder();
+		return this.order - o.getOrder();// 升序
 	}
 
 }
