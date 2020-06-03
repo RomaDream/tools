@@ -1,6 +1,9 @@
 package com.ys.tool;
 
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
@@ -23,11 +26,14 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.alibaba.druid.util.StringUtils;
 
@@ -688,5 +694,54 @@ public class ExcelUtil {
 		ParsePosition pos = new ParsePosition(0);
 		Date strtodate = formatter.parse(strDate, pos);
 		return strtodate;
+	}
+	
+	/**
+	 * 
+	 * @param fliePath | 文件全路径
+	 * @return
+	 * @throws IOException 
+	 * @throws InvalidFormatException 
+	 */
+	public static List<List<String>> read(String flieFullPath) throws IOException, InvalidFormatException {
+		List<List<String>> list = new ArrayList<>();
+		File file = new File(flieFullPath);
+		String fileName = file.getName();
+		String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
+		if(!file.exists()) {
+			System.out.println(flieFullPath + "文件不存在");
+			return null;
+		}
+		FileInputStream fis = new FileInputStream(file);
+		Workbook wb;
+		if("xls".equals(suffix)) {
+			wb = new HSSFWorkbook(fis);
+		}else if("xlsx".equals(suffix)) {
+			wb = WorkbookFactory.create(fis);
+		}else {
+			System.out.println("文件类型错误!");
+			return null;
+		}
+		
+		Sheet sheet = wb.getSheetAt(0);
+		
+		int first = sheet.getFirstRowNum() + 1;
+		int last = sheet.getLastRowNum();
+		if(last<=1) {
+			System.out.println("文件没有数据");
+			return null;
+		}
+		
+		for (int i = first; i <=last; i++) {
+			List<String> line = new ArrayList<>();
+			Row row = sheet.getRow(i);
+			short firstCellNum = row.getFirstCellNum();
+			short lastCellNum = row.getLastCellNum();
+			for(int j=firstCellNum; j < lastCellNum; j++) {
+				line.add(row.getCell(j).getStringCellValue());
+			}
+			list.add(line);
+		}
+		return list;
 	}
 }

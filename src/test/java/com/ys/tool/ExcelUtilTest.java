@@ -14,46 +14,65 @@ import junit.framework.TestCase;
 
 public class ExcelUtilTest extends TestCase{
 	
-	public void test() {
-		List<String> heads  = new ArrayList<>();
-		heads.add("第一列-表头");
-		heads.add("第二列-表头");
-		heads.add("第三列-表头");
-		
-		List<List<String>> dataList = new ArrayList<>();
-		for (int i = 0; i < 999; i++) {
-			List<String> temp = new ArrayList<>();
-			for(int j=1; j<=3; j++) {
-				temp.add(i+"-"+j);
+	public void test1() {
+		try {
+			List<String> heads  = new ArrayList<>();
+			heads.add("第一列-表头");
+			heads.add("第二列-表头");
+			heads.add("第三列-表头");
+			
+			List<List<String>> dataList = new ArrayList<>();
+			for (int i = 0; i < 99; i++) {
+				List<String> temp = new ArrayList<>();
+				for(int j=1; j<=3; j++) {
+					temp.add(i+"-"+j);
+				}
+				dataList.add(temp);
 			}
-			dataList.add(temp);
-		}
-		
-		HSSFWorkbook hssfWorkbook = ExcelUtil.createExcelFile("test", heads, dataList);
-		File file = new File("C:\\Users\\Administrator\\Desktop\\新建文件夹\\新建文件夹\\test1.xls");
-		if(!file.exists()) {
+			
+			HSSFWorkbook hssfWorkbook = ExcelUtil.createExcelFile("test", heads, dataList);
+			File file = new File("C:\\Users\\Administrator\\Desktop\\新建文件夹\\新建文件夹\\test1.xlsx");
+			if(!file.exists()) {
+				try {
+					file.createNewFile();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			OutputStream output = null;
 			try {
-				file.createNewFile();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				output = new FileOutputStream(file);
+			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
-		}
-		OutputStream output = null;
-		try {
-			output = new FileOutputStream(file);
-		} catch (FileNotFoundException e) {
+			try {
+				hssfWorkbook.write(output);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			try {
+				output.flush();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void test() {
+		List<List<String>> read = null;
 		try {
-			hssfWorkbook.write(output);
-		} catch (IOException e) {
+			read = ExcelUtil.read("C:\\Users\\Administrator\\Desktop\\新建文件夹\\新建文件夹\\test1.xlsx");
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		try {
-			output.flush();
-		} catch (IOException e) {
-			e.printStackTrace();
+		for (List<String> list : read) {
+			for (String cell : list) {
+				System.out.print(cell + " ");
+			}
+			System.out.println();
 		}
 	}
 	
