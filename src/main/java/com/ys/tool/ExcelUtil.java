@@ -103,6 +103,8 @@ public class ExcelUtil {
 			for (int index = 0; index < heads.size(); index++) {
 				HSSFCell createCell = row.createCell(index);
 				createCell.setCellType(CellStyle.ALIGN_CENTER);
+				createCell.setCellType(Cell.CELL_TYPE_STRING);
+				createCell.setCellValue(heads.get(index));
 			}
 			// 填充数据信息
 			for (int i = 0; i < dataList.size(); i++) {
