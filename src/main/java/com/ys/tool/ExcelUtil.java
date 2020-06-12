@@ -698,7 +698,7 @@ public class ExcelUtil {
 	
 	/**
 	 * 
-	 * @param fliePath | 文件全路径
+	 * @param flieFullPath | 文件全路径
 	 * @return
 	 * @throws IOException 
 	 * @throws InvalidFormatException 
@@ -714,9 +714,7 @@ public class ExcelUtil {
 		}
 		FileInputStream fis = new FileInputStream(file);
 		Workbook wb;
-		if("xls".equals(suffix)) {
-			wb = new HSSFWorkbook(fis);
-		}else if("xlsx".equals(suffix)) {
+		if("xls".equals(suffix) || "xlsx".equals(suffix)) {
 			wb = WorkbookFactory.create(fis);
 		}else {
 			System.out.println("文件类型错误!");

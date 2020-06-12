@@ -36,10 +36,13 @@ public class TreeMenu {
 			List<Menu> children = getChilder(menu.getId(), menus);
 			menu.setChildren(children);
 		}
-
+		
+		
+		
 		System.out.println("递归后的数据-------");
 		System.out.println(JSON.toJSONStringWithDateFormat(rootMenus, "yyyy-MM-dd HH:mm:ss",
 				SerializerFeature.DisableCircularReferenceDetect));
+		
 		return menus;
 	}
 
@@ -85,6 +88,9 @@ class Menu implements Comparable<Menu> {
 	private String icon;
 
 	private int order;
+	
+	//是否展示子节点
+	private boolean expand;
 
 	private java.util.List<Menu> children;
 
@@ -143,6 +149,14 @@ class Menu implements Comparable<Menu> {
 	public void setChildren(java.util.List<Menu> children) {
 		this.children = children;
 	}
+	
+	public boolean getExpand() {
+		return this.expand;
+	}
+	
+	public void setExpand(boolean expand) {
+		this.expand = expand;
+	}
 
 	@Override
 	public String toString() {
@@ -177,6 +191,14 @@ class Menu implements Comparable<Menu> {
 
 	public int compareTo(Menu o) {
 		return this.order - o.getOrder();// 升序
+	}
+	
+	public boolean isFLoor(Menu o) {
+		boolean b = false;
+		if(o.getChildren()==null || o.getChildren().size()==0) {
+			b = true;
+		}
+		return b;
 	}
 
 }
